@@ -1,24 +1,57 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { LedgerApp } from "@/components/ledger/LedgerApp";
+import { useDemoLedger } from "@/components/ledger/useDemoLedger";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "The Admin Ledger — Church Administration Planner" },
+      {
+        name: "description",
+        content:
+          "A daily checklist, recurring duties, meetings, events and ceremony register for church administrators. Sign in to save your ledger.",
+      },
+      { property: "og:title", content: "The Admin Ledger — Church Administration Planner" },
+      {
+        property: "og:description",
+        content:
+          "Daily checklist, recurring duties, meetings, events and ceremonies in one calm administrative ledger.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [weekday, setWeekday] = useState(new Date().getDay());
+  const store = useDemoLedger(weekday);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+    <main>
+      <LedgerApp
+        store={store}
+        weekday={weekday}
+        onWeekdayChange={setWeekday}
+        headerRight={
+          <Button asChild variant="secondary" size="sm">
+            <Link to="/auth">Sign in</Link>
+          </Button>
+        }
+        banner={
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-dashed border-border bg-secondary/60 px-4 py-3">
+            <p className="text-sm text-muted-foreground">
+              You're viewing the ledger in preview mode — changes stay on this device only.
+            </p>
+            <Button asChild size="sm">
+              <Link to="/auth">Sign in to save your ledger</Link>
+            </Button>
+          </div>
+        }
       />
-    </div>
+    </main>
   );
 }
