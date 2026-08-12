@@ -13,8 +13,6 @@ import {
 import {
   buildICS,
   CADENCES,
-  CEREMONY_KINDS,
-  CEREMONY_STATUSES,
   downloadICS,
   EVENT_CATEGORIES,
   longDate,
@@ -26,6 +24,7 @@ import {
   type TabId,
 } from "@/lib/ledger";
 import { formatTime12, meetingDateInWeek } from "@/lib/ledger";
+import { LifeEventsTab } from "./LifeEventsTab";
 import { MeetingsTab } from "./MeetingsTab";
 import { dateForWeekday, type LedgerStore } from "./store";
 
@@ -260,7 +259,10 @@ export function LedgerApp({
         )}
 
         {tab === "duties" && (
-          <Panel title="Recurring duties" subtitle="Standing responsibilities and how often they fall due.">
+          <Panel
+            title="Recurring duties"
+            subtitle="Standing responsibilities and how often they fall due."
+          >
             <AddForm
               fields={[
                 { name: "title", placeholder: "Duty", required: true },
@@ -269,9 +271,9 @@ export function LedgerApp({
               ]}
               onSubmit={(v) =>
                 store.addDuty({
-                  title: v['title'] as string,
-                  cadence: (v['cadence'] as string) || "Weekly",
-                  notes: (v['notes'] as string) || null,
+                  title: v["title"] as string,
+                  cadence: (v["cadence"] as string) || "Weekly",
+                  notes: (v["notes"] as string) || null,
                 })
               }
             />
@@ -286,7 +288,12 @@ export function LedgerApp({
                   <span className="label-mono rounded-full border border-border px-3 py-1 text-muted-foreground">
                     {d.cadence}
                   </span>
-                  <Button variant="ghost" size="icon" aria-label="Delete duty" onClick={() => store.removeDuty(d.id)}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Delete duty"
+                    onClick={() => store.removeDuty(d.id)}
+                  >
                     <Trash2 className="size-4" />
                   </Button>
                 </Row>
@@ -298,7 +305,10 @@ export function LedgerApp({
         {tab === "meetings" && <MeetingsTab store={store} />}
 
         {tab === "events" && (
-          <Panel title="Events & reminders" subtitle="One-off programmes, deadlines and things not to forget.">
+          <Panel
+            title="Events & reminders"
+            subtitle="One-off programmes, deadlines and things not to forget."
+          >
             <AddForm
               fields={[
                 { name: "title", placeholder: "Title", required: true },
@@ -308,10 +318,10 @@ export function LedgerApp({
               ]}
               onSubmit={(v) =>
                 store.addEvent({
-                  title: v['title'] as string,
-                  event_date: (v['event_date'] as string) || todayISO(),
-                  category: (v['category'] as string) || "Event",
-                  notes: (v['notes'] as string) || null,
+                  title: v["title"] as string,
+                  event_date: (v["event_date"] as string) || todayISO(),
+                  category: (v["category"] as string) || "Event",
+                  notes: (v["notes"] as string) || null,
                   remind: true,
                 })
               }
@@ -327,7 +337,12 @@ export function LedgerApp({
                     </p>
                     {e.notes && <p className="text-sm text-muted-foreground">{e.notes}</p>}
                   </div>
-                  <Button variant="ghost" size="icon" aria-label="Delete event" onClick={() => store.removeEvent(e.id)}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Delete event"
+                    onClick={() => store.removeEvent(e.id)}
+                  >
                     <Trash2 className="size-4" />
                   </Button>
                 </Row>
@@ -336,53 +351,7 @@ export function LedgerApp({
           </Panel>
         )}
 
-        {tab === "ceremonies" && (
-          <Panel title="Wedding / Naming / Burial" subtitle="Ceremony requests and their progress.">
-            <AddForm
-              fields={[
-                { name: "kind", type: "select", options: CEREMONY_KINDS },
-                { name: "name", placeholder: "Family / couple name", required: true },
-                { name: "ceremony_date", type: "date" },
-                { name: "officiant", placeholder: "Officiating minister" },
-                { name: "status", type: "select", options: CEREMONY_STATUSES },
-                { name: "notes", placeholder: "Notes (optional)", type: "textarea" },
-              ]}
-              onSubmit={(v) =>
-                store.addCeremony({
-                  kind: (v['kind'] as string) || "Wedding",
-                  name: v['name'] as string,
-                  ceremony_date: (v['ceremony_date'] as string) || null,
-                  officiant: (v['officiant'] as string) || null,
-                  status: (v['status'] as string) || "Enquiry",
-                  notes: (v['notes'] as string) || null,
-                })
-              }
-            />
-            <div className="mt-5">
-              {store.ceremonies.length === 0 && <Empty text="No ceremonies recorded." />}
-              {store.ceremonies.map((c) => (
-                <Row key={c.id}>
-                  <div className="flex-1">
-                    <p className="font-medium">
-                      {c.kind} — {c.name}
-                    </p>
-                    <p className="label-mono text-muted-foreground">
-                      {prettyDate(c.ceremony_date)}
-                      {c.officiant ? ` · ${c.officiant}` : ""}
-                    </p>
-                    {c.notes && <p className="text-sm text-muted-foreground">{c.notes}</p>}
-                  </div>
-                  <span className="label-mono rounded-full border border-border px-3 py-1 text-muted-foreground">
-                    {c.status}
-                  </span>
-                  <Button variant="ghost" size="icon" aria-label="Delete record" onClick={() => store.removeCeremony(c.id)}>
-                    <Trash2 className="size-4" />
-                  </Button>
-                </Row>
-              ))}
-            </div>
-          </Panel>
-        )}
+        {tab === "ceremonies" && <LifeEventsTab store={store} />}
 
         {tab === "calendar" && (
           <Panel
@@ -392,7 +361,9 @@ export function LedgerApp({
             <div className="rounded-lg border border-border bg-secondary/60 p-5">
               <p className="label-mono text-muted-foreground">Ready to export</p>
               <p className="mt-2 font-display text-3xl">{calendarEvents.length}</p>
-              <p className="text-sm text-muted-foreground">dated entries across events and ceremonies</p>
+              <p className="text-sm text-muted-foreground">
+                dated entries across events and ceremonies
+              </p>
               <Button
                 className="mt-4"
                 disabled={calendarEvents.length === 0}

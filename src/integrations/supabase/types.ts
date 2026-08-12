@@ -17,6 +17,7 @@ export type Database = {
       ceremonies: {
         Row: {
           ceremony_date: string | null
+          ceremony_time: string | null
           created_at: string
           id: string
           kind: string
@@ -28,6 +29,7 @@ export type Database = {
         }
         Insert: {
           ceremony_date?: string | null
+          ceremony_time?: string | null
           created_at?: string
           id?: string
           kind?: string
@@ -39,6 +41,7 @@ export type Database = {
         }
         Update: {
           ceremony_date?: string | null
+          ceremony_time?: string | null
           created_at?: string
           id?: string
           kind?: string
