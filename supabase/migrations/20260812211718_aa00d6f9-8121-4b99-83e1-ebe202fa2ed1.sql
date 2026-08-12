@@ -1,0 +1,1 @@
+ALTER TABLE public.ceremonies ADD COLUMN IF NOT EXISTS ceremony_time text;
