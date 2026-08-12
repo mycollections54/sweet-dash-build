@@ -81,7 +81,8 @@ export function LedgerApp({
   const [newTask, setNewTask] = useState("");
 
   const doneCount = store.items.filter((i) => store.doneItemIds.has(i.id)).length;
-  const dayMeetings = store.meetings.filter((m) => m.weekday === weekday);
+  const selectedDayISO = todayISO(dateForWeekday(weekday));
+  const dayMeetings = store.meetings.filter((m) => meetingDateInWeek(m) === selectedDayISO);
 
   const calendarEvents = useMemo(
     () => [
