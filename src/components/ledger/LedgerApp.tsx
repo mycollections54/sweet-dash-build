@@ -188,7 +188,7 @@ export function LedgerApp({
                   {dayMeetings.map((m) => (
                     <li key={m.id} className="text-sm">
                       <span className="font-medium">{m.title}</span>
-                      {m.start_time ? ` · ${m.start_time}` : ""}
+                      {m.start_time ? ` · ${formatTime12(m.start_time)}` : ""}
                       {m.location ? ` · ${m.location}` : ""}
                     </li>
                   ))}
