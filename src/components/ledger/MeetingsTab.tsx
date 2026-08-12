@@ -249,7 +249,10 @@ export function MeetingsTab({ store }: { store: LedgerStore }) {
         )}
       </Card>
 
-      <Card title="Standing weekly meetings" subtitle="Your recurring meetings, regardless of week.">
+      <Card
+        title="Standing weekly meetings"
+        subtitle="Your recurring meetings, regardless of week."
+      >
         {standing.length === 0 ? (
           <p className="text-sm italic text-muted-foreground">No standing weekly meetings yet.</p>
         ) : (

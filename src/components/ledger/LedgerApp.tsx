@@ -259,7 +259,10 @@ export function LedgerApp({
         )}
 
         {tab === "duties" && (
-          <Panel title="Recurring duties" subtitle="Standing responsibilities and how often they fall due.">
+          <Panel
+            title="Recurring duties"
+            subtitle="Standing responsibilities and how often they fall due."
+          >
             <AddForm
               fields={[
                 { name: "title", placeholder: "Duty", required: true },
@@ -268,9 +271,9 @@ export function LedgerApp({
               ]}
               onSubmit={(v) =>
                 store.addDuty({
-                  title: v['title'] as string,
-                  cadence: (v['cadence'] as string) || "Weekly",
-                  notes: (v['notes'] as string) || null,
+                  title: v["title"] as string,
+                  cadence: (v["cadence"] as string) || "Weekly",
+                  notes: (v["notes"] as string) || null,
                 })
               }
             />
@@ -285,7 +288,12 @@ export function LedgerApp({
                   <span className="label-mono rounded-full border border-border px-3 py-1 text-muted-foreground">
                     {d.cadence}
                   </span>
-                  <Button variant="ghost" size="icon" aria-label="Delete duty" onClick={() => store.removeDuty(d.id)}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Delete duty"
+                    onClick={() => store.removeDuty(d.id)}
+                  >
                     <Trash2 className="size-4" />
                   </Button>
                 </Row>
@@ -297,7 +305,10 @@ export function LedgerApp({
         {tab === "meetings" && <MeetingsTab store={store} />}
 
         {tab === "events" && (
-          <Panel title="Events & reminders" subtitle="One-off programmes, deadlines and things not to forget.">
+          <Panel
+            title="Events & reminders"
+            subtitle="One-off programmes, deadlines and things not to forget."
+          >
             <AddForm
               fields={[
                 { name: "title", placeholder: "Title", required: true },
@@ -307,10 +318,10 @@ export function LedgerApp({
               ]}
               onSubmit={(v) =>
                 store.addEvent({
-                  title: v['title'] as string,
-                  event_date: (v['event_date'] as string) || todayISO(),
-                  category: (v['category'] as string) || "Event",
-                  notes: (v['notes'] as string) || null,
+                  title: v["title"] as string,
+                  event_date: (v["event_date"] as string) || todayISO(),
+                  category: (v["category"] as string) || "Event",
+                  notes: (v["notes"] as string) || null,
                   remind: true,
                 })
               }
@@ -326,7 +337,12 @@ export function LedgerApp({
                     </p>
                     {e.notes && <p className="text-sm text-muted-foreground">{e.notes}</p>}
                   </div>
-                  <Button variant="ghost" size="icon" aria-label="Delete event" onClick={() => store.removeEvent(e.id)}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Delete event"
+                    onClick={() => store.removeEvent(e.id)}
+                  >
                     <Trash2 className="size-4" />
                   </Button>
                 </Row>
@@ -345,7 +361,9 @@ export function LedgerApp({
             <div className="rounded-lg border border-border bg-secondary/60 p-5">
               <p className="label-mono text-muted-foreground">Ready to export</p>
               <p className="mt-2 font-display text-3xl">{calendarEvents.length}</p>
-              <p className="text-sm text-muted-foreground">dated entries across events and ceremonies</p>
+              <p className="text-sm text-muted-foreground">
+                dated entries across events and ceremonies
+              </p>
               <Button
                 className="mt-4"
                 disabled={calendarEvents.length === 0}

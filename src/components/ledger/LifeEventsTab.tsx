@@ -10,12 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  CEREMONY_KINDS,
-  CEREMONY_STATUSES,
-  formatTime12,
-  prettyDate,
-} from "@/lib/ledger";
+import { CEREMONY_KINDS, CEREMONY_STATUSES, formatTime12, prettyDate } from "@/lib/ledger";
 import type { LedgerStore } from "./store";
 
 function Label({ children }: { children: React.ReactNode }) {
