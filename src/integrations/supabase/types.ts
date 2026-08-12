@@ -146,7 +146,9 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          is_recurring: boolean
           location: string | null
+          meeting_date: string | null
           notes: string | null
           start_time: string | null
           title: string
@@ -156,7 +158,9 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          is_recurring?: boolean
           location?: string | null
+          meeting_date?: string | null
           notes?: string | null
           start_time?: string | null
           title: string
@@ -166,7 +170,9 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          is_recurring?: boolean
           location?: string | null
+          meeting_date?: string | null
           notes?: string | null
           start_time?: string | null
           title?: string

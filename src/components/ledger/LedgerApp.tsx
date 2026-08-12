@@ -25,6 +25,8 @@ import {
   WEEKDAYS_LONG,
   type TabId,
 } from "@/lib/ledger";
+import { formatTime12, meetingDateInWeek } from "@/lib/ledger";
+import { MeetingsTab } from "./MeetingsTab";
 import { dateForWeekday, type LedgerStore } from "./store";
 
 function Panel({
@@ -79,7 +81,8 @@ export function LedgerApp({
   const [newTask, setNewTask] = useState("");
 
   const doneCount = store.items.filter((i) => store.doneItemIds.has(i.id)).length;
-  const dayMeetings = store.meetings.filter((m) => m.weekday === weekday);
+  const selectedDayISO = todayISO(dateForWeekday(weekday));
+  const dayMeetings = store.meetings.filter((m) => meetingDateInWeek(m) === selectedDayISO);
 
   const calendarEvents = useMemo(
     () => [
@@ -185,7 +188,7 @@ export function LedgerApp({
                   {dayMeetings.map((m) => (
                     <li key={m.id} className="text-sm">
                       <span className="font-medium">{m.title}</span>
-                      {m.start_time ? ` · ${m.start_time}` : ""}
+                      {m.start_time ? ` · ${formatTime12(m.start_time)}` : ""}
                       {m.location ? ` · ${m.location}` : ""}
                     </li>
                   ))}
@@ -292,47 +295,7 @@ export function LedgerApp({
           </Panel>
         )}
 
-        {tab === "meetings" && (
-          <Panel title="Meetings" subtitle="Regular meetings, when they hold and where.">
-            <AddForm
-              fields={[
-                { name: "title", placeholder: "Meeting title", required: true },
-                { name: "weekday", type: "select", options: [...WEEKDAYS_LONG] },
-                { name: "start_time", placeholder: "Time e.g. 10:00" },
-                { name: "location", placeholder: "Location" },
-                { name: "notes", placeholder: "Notes (optional)", type: "textarea" },
-              ]}
-              onSubmit={(v) =>
-                store.addMeeting({
-                  title: v['title'] as string,
-                  weekday: Math.max(0, WEEKDAYS_LONG.indexOf(v['weekday'] as never)),
-                  start_time: (v['start_time'] as string) || null,
-                  location: (v['location'] as string) || null,
-                  notes: (v['notes'] as string) || null,
-                })
-              }
-            />
-            <div className="mt-5">
-              {store.meetings.length === 0 && <Empty text="No meetings recorded." />}
-              {store.meetings.map((m) => (
-                <Row key={m.id}>
-                  <div className="flex-1">
-                    <p className="font-medium">{m.title}</p>
-                    <p className="label-mono text-muted-foreground">
-                      {WEEKDAYS_LONG[m.weekday]}
-                      {m.start_time ? ` · ${m.start_time}` : ""}
-                      {m.location ? ` · ${m.location}` : ""}
-                    </p>
-                    {m.notes && <p className="text-sm text-muted-foreground">{m.notes}</p>}
-                  </div>
-                  <Button variant="ghost" size="icon" aria-label="Delete meeting" onClick={() => store.removeMeeting(m.id)}>
-                    <Trash2 className="size-4" />
-                  </Button>
-                </Row>
-              ))}
-            </div>
-          </Panel>
-        )}
+        {tab === "meetings" && <MeetingsTab store={store} />}
 
         {tab === "events" && (
           <Panel title="Events & reminders" subtitle="One-off programmes, deadlines and things not to forget.">

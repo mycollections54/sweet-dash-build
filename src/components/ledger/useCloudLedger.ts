@@ -26,7 +26,7 @@ export function useCloudLedger(selectedWeekday: number): LedgerStore {
       supabase.from("recurring_duties").select("id, title, cadence, notes").order("created_at"),
       supabase
         .from("meetings")
-        .select("id, title, weekday, start_time, location, notes")
+        .select("id, title, weekday, start_time, location, notes, meeting_date, is_recurring")
         .order("weekday"),
       supabase
         .from("events")

@@ -44,6 +44,8 @@ function seed(): DemoState {
         start_time: "10:00",
         location: "Church office",
         notes: "Agenda circulated a day before",
+        meeting_date: null,
+        is_recurring: true,
       },
       {
         id: uid(),
@@ -52,6 +54,8 @@ function seed(): DemoState {
         start_time: "17:30",
         location: "Main auditorium",
         notes: null,
+        meeting_date: null,
+        is_recurring: true,
       },
     ],
     events: [],
