@@ -25,6 +25,8 @@ import {
   WEEKDAYS_LONG,
   type TabId,
 } from "@/lib/ledger";
+import { formatTime12, meetingDateInWeek } from "@/lib/ledger";
+import { MeetingsTab } from "./MeetingsTab";
 import { dateForWeekday, type LedgerStore } from "./store";
 
 function Panel({
