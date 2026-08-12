@@ -34,7 +34,7 @@ export function useCloudLedger(selectedWeekday: number): LedgerStore {
         .order("event_date"),
       supabase
         .from("ceremonies")
-        .select("id, kind, name, ceremony_date, officiant, status, notes")
+        .select("id, kind, name, ceremony_date, ceremony_time, officiant, status, notes")
         .order("ceremony_date", { nullsFirst: false }),
     ]);
     setAllItems(i.data ?? []);

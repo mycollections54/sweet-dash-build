@@ -14,7 +14,7 @@ export const TABS = [
   { id: "duties", label: "Recurring Duties" },
   { id: "meetings", label: "Meetings" },
   { id: "events", label: "Events & Reminders" },
-  { id: "ceremonies", label: "Wedding / Naming / Burial" },
+  { id: "ceremonies", label: "Life Events" },
   { id: "calendar", label: "Calendar Sync" },
 ] as const;
 
@@ -22,7 +22,7 @@ export type TabId = (typeof TABS)[number]["id"];
 
 export const CADENCES = ["Daily", "Weekly", "Fortnightly", "Monthly", "Quarterly", "Yearly"];
 export const EVENT_CATEGORIES = ["Event", "Reminder", "Programme", "Anniversary", "Deadline"];
-export const CEREMONY_KINDS = ["Wedding", "Naming", "Burial"];
+export const CEREMONY_KINDS = ["Wedding", "Naming", "Burial", "Thanksgiving", "Other"];
 export const CEREMONY_STATUSES = ["Enquiry", "Approved", "Scheduled", "Completed", "Cancelled"];
 
 export const DEFAULT_CHECKLIST = [
@@ -61,6 +61,7 @@ export type Ceremony = {
   kind: string;
   name: string;
   ceremony_date: string | null;
+  ceremony_time: string | null;
   officiant: string | null;
   status: string;
   notes: string | null;
