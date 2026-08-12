@@ -13,8 +13,6 @@ import {
 import {
   buildICS,
   CADENCES,
-  CEREMONY_KINDS,
-  CEREMONY_STATUSES,
   downloadICS,
   EVENT_CATEGORIES,
   longDate,
