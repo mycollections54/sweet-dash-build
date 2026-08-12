@@ -336,53 +336,7 @@ export function LedgerApp({
           </Panel>
         )}
 
-        {tab === "ceremonies" && (
-          <Panel title="Wedding / Naming / Burial" subtitle="Ceremony requests and their progress.">
-            <AddForm
-              fields={[
-                { name: "kind", type: "select", options: CEREMONY_KINDS },
-                { name: "name", placeholder: "Family / couple name", required: true },
-                { name: "ceremony_date", type: "date" },
-                { name: "officiant", placeholder: "Officiating minister" },
-                { name: "status", type: "select", options: CEREMONY_STATUSES },
-                { name: "notes", placeholder: "Notes (optional)", type: "textarea" },
-              ]}
-              onSubmit={(v) =>
-                store.addCeremony({
-                  kind: (v['kind'] as string) || "Wedding",
-                  name: v['name'] as string,
-                  ceremony_date: (v['ceremony_date'] as string) || null,
-                  officiant: (v['officiant'] as string) || null,
-                  status: (v['status'] as string) || "Enquiry",
-                  notes: (v['notes'] as string) || null,
-                })
-              }
-            />
-            <div className="mt-5">
-              {store.ceremonies.length === 0 && <Empty text="No ceremonies recorded." />}
-              {store.ceremonies.map((c) => (
-                <Row key={c.id}>
-                  <div className="flex-1">
-                    <p className="font-medium">
-                      {c.kind} — {c.name}
-                    </p>
-                    <p className="label-mono text-muted-foreground">
-                      {prettyDate(c.ceremony_date)}
-                      {c.officiant ? ` · ${c.officiant}` : ""}
-                    </p>
-                    {c.notes && <p className="text-sm text-muted-foreground">{c.notes}</p>}
-                  </div>
-                  <span className="label-mono rounded-full border border-border px-3 py-1 text-muted-foreground">
-                    {c.status}
-                  </span>
-                  <Button variant="ghost" size="icon" aria-label="Delete record" onClick={() => store.removeCeremony(c.id)}>
-                    <Trash2 className="size-4" />
-                  </Button>
-                </Row>
-              ))}
-            </div>
-          </Panel>
-        )}
+        {tab === "ceremonies" && <LifeEventsTab store={store} />}
 
         {tab === "calendar" && (
           <Panel
