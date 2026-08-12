@@ -26,6 +26,7 @@ import {
   type TabId,
 } from "@/lib/ledger";
 import { formatTime12, meetingDateInWeek } from "@/lib/ledger";
+import { LifeEventsTab } from "./LifeEventsTab";
 import { MeetingsTab } from "./MeetingsTab";
 import { dateForWeekday, type LedgerStore } from "./store";
 
