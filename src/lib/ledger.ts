@@ -45,6 +45,8 @@ export type Meeting = {
   start_time: string | null;
   location: string | null;
   notes: string | null;
+  meeting_date: string | null;
+  is_recurring: boolean;
 };
 export type LedgerEvent = {
   id: string;
